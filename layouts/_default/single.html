@@ -27,9 +27,17 @@
           <span class="date">{{ .Date.Format "02 January" }}</span>	<span> / </span>
 
           <span class="author">
-            <a href="{{ $writer.link | default .Site.Params.authorlink | absURL }}" title="Posts by {{ .Params.writer | default .Site.Params.author }}" rel="author">{{ .Params.writer | default .Site.Params.author }}</a>
-          </span>
 
+          {{ if and (isset .Site.Params "authorlink") .Site.Params.authorLink }}
+					  {{ if and (isset .Site.Params "author") .Site.Params.author }}
+					  <a href="{{ $writer.link | default .Site.Params.authorlink | absURL }}" title="Posts by {{ .Params.writer | default .Site.Params.author }}" rel="author">{{ .Params.writer | default .Site.Params.author }}</a>
+            {{ end }}
+          {{ else if (isset $writer "link") }}
+            <a href="{{ $writer.link | absURL }}" title="Posts by {{ .Params.writer | default .Site.Params.author }}" rel="author">{{ .Params.writer | default .Site.Params.author }}</a>
+					{{ else }}
+						{{ .Params.writer | default .Site.Params.author }}
+					{{ end }}
+          </span>
 
           {{ range .Params.categories }}
           <span class="category">
@@ -90,8 +98,19 @@
     {{ else }}
       <img alt='{{ .Params.writer | default .Site.Params.author }}' src="https://www.gravatar.com/avatar/{{ md5 .Site.Params.email }}?s=100&d=identicon" class='avatar avatar-72 photo' height='72' width='72'>
     {{ end }}
+
     <span>
-      Written by:<a href="{{ $writer.link | default .Site.Params.authorlink | absURL}}" title="Posts by {{ .Params.writer | default .Site.Params.author }}" rel="author">{{ .Params.writer | default .Site.Params.author }}</a> </span>
+    {{ if and (isset .Site.Params "authorlink") .Site.Params.authorLink }}
+      {{ if and (isset .Site.Params "author") .Site.Params.author }}
+      Written By: <a href="{{ $writer.link | default .Site.Params.authorlink | absURL }}" title="Posts by {{ .Params.writer | default .Site.Params.author }}" rel="author">{{ .Params.writer | default .Site.Params.author }}</a>
+      {{ end }}
+    {{ else if (isset $writer "link") }}
+      Written By: <a href="{{ $writer.link | absURL }}" title="Posts by {{ .Params.writer | default .Site.Params.author }}" rel="author">{{ .Params.writer | default .Site.Params.author }}</a>
+    {{ else }}
+      Written By: <span>{{ .Params.writer | default .Site.Params.author }}</span>
+    {{ end }}
+    </span>
+
     </div>
     <div class="bio">
       {{ if and (isset .Params "writer") $writer.bio }}

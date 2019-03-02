@@ -1118,6 +1118,16 @@ a img {
   letter-spacing: 0.1em;
   display: block;
 }
+
+.author-meta .author span>span {
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: #8c8c8c;
+  display: block;
+  font-size: 1em;
+  line-height: 1.85;
+}
+
 .author-meta .bio a {
   margin-right: 0.375em;
   display: inline-block;
